@@ -177,7 +177,9 @@
          a11 = z1
          a12 = fa2(dble(cx(i,1)),z1,z2)
          a13 = fa3(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),z1,z2,z3)
-         a14 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),         dble(cx(i,4)),dble(cx(i,5)),dble(cx(i,6)),         dble(z1),dble(z2),dble(z3),dble(z4))
+         a14 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),  &
+			 dble(cx(i,4)),dble(cx(i,5)),dble(cx(i,6)),  &
+			 dble(z1),dble(z2),dble(z3),dble(z4))
          b1  = fa(a11,a12,a13,a14,x,x1,x2,x3)
          
 !     interpolation 2eme rangee selon x
@@ -190,7 +192,8 @@
          a21 = z1
          a22 = fa2(dble(cx(i,1)),z1,z2)
          a23 = fa3(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),z1,z2,z3)
-         a24 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),         dble(cx(i,4)),dble(cx(i,5)),dble(cx(i,6)),dble(z1),dble(z2),dble(z3),dble(z4))
+         a24 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),  &
+			 dble(cx(i,4)),dble(cx(i,5)),dble(cx(i,6)),dble(z1),dble(z2),dble(z3),dble(z4))
          b2  = fa(a21,a22,a23,a24,x,x1,x2,x3)
          
 !     interpolation 3eme rangee selon x
@@ -203,7 +206,8 @@
          a31 = z1
          a32 = fa2(dble(cx(i,1)),z1,z2)
          a33 = fa3(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),z1,z2,z3)
-         a34 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),dble(cx(i,4)),         dble(cx(i,5)),dble(cx(i,6)),dble(z1),dble(z2),dble(z3),dble(z4))
+         a34 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),dble(cx(i,4)),  &
+			 dble(cx(i,5)),dble(cx(i,6)),dble(z1),dble(z2),dble(z3),dble(z4))
          b3  = fa(a31,a32,a33,a34,x,x1,x2,x3)
          
 !     interpolation 4eme rangee selon x
@@ -216,7 +220,8 @@
          a41 = z1
          a42 = fa2(dble(cx(i,1)),z1,z2)
          a43 = fa3(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),z1,z2,z3)
-         a44 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),dble(cx(i,4)),         dble(cx(i,5)),dble(cx(i,6)),dble(z1),dble(z2),dble(z3),dble(z4))
+         a44 = fa4(dble(cx(i,1)),dble(cx(i,2)),dble(cx(i,3)),dble(cx(i,4)),  &
+			 dble(cx(i,5)),dble(cx(i,6)),dble(z1),dble(z2),dble(z3),dble(z4))
          b4  = fa(a41,a42,a43,a44,x,x1,x2,x3)
          
 !     interpolation finale selon y
@@ -224,7 +229,8 @@
          b11 = b1
          b12 = fa2(dble(cy(j,1)),b1,b2)
          b13 = fa3(dble(cy(j,1)),dble(cy(j,2)),dble(cy(j,3)),b1,b2,b3)
-         b14 = fa4(dble(cy(j,1)),dble(cy(j,2)),dble(cy(j,3)),         dble(cy(j,4)),dble(cy(j,5)),dble(cy(j,6)),b1,b2,b3,b4)
+         b14 = fa4(dble(cy(j,1)),dble(cy(j,2)),dble(cy(j,3)),  &
+			 dble(cy(j,4)),dble(cy(j,5)),dble(cy(j,6)),b1,b2,b3,b4)
          zo(n) = fa(b11,b12,b13,b14,y,y1,y2,y3)
       enddo
 !zzzzzz$OMP END DO
