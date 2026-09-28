@@ -102,7 +102,8 @@
   end if
 
   if(numExtArraysOut < 2*destNumLevels) then
-    write(app_msg,*)'Extrap1D_SurfaceWind: Too few output extension arrays supplied: ',numExtArraysOut,', 2*destNumLevels=',2*destNumLevels,' are required'
+    write(app_msg,*)'Extrap1D_SurfaceWind: Too few output extension arrays supplied: ',  &
+	numExtArraysOut,', 2*destNumLevels=',2*destNumLevels,' are required'
     call lib_log(APP_LIBINTERPV,APP_ERROR,app_msg)
     return
   end if
