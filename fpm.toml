@@ -60,7 +60,7 @@ legacy.link-time-flags = "-pthread"
 # fallback implementation.  fpm cannot run such a test, so the definition is
 # hard coded here.  Compilers without the intrinsic simply do not export
 # f_c_string from that module, which no other librmn source uses.
-legacy.gfortran.flags = "-Wno-error=line-truncation -fconvert=big-endian -fcray-pointer -frecord-marker=4 -fno-second-underscore -fallow-argument-mismatch -ffixed-line-length-none -DF_C_STRING_AVAILABLE"
+legacy.gfortran.flags = "-Wno-error=line-truncation -ffree-line-length-none -fconvert=big-endian -fcray-pointer -frecord-marker=4 -fno-second-underscore -fallow-argument-mismatch -ffixed-line-length-none -DF_C_STRING_AVAILABLE"
 
 legacy.ifort.flags = "-convert big_endian -align array32byte -assume byterecl -allow argument_mismatch"
 legacy.ifx.flags = "-convert big_endian -align array32byte -assume byterecl -allow argument_mismatch"
