@@ -1,4 +1,5 @@
-   subroutine ez_calcxy_y(wts, idxs, x, y, gdout_lat, gdout_lon, gdin_lat, gdin_lon, masque, ni_src, nj_src, ni_dst, nj_dst, num_wts)
+   subroutine ez_calcxy_y(wts, idxs, x, y, gdout_lat, gdout_lon, gdin_lat, gdin_lon,  &
+	   masque, ni_src, nj_src, ni_dst, nj_dst, num_wts)
    implicit none
 
    integer ni_src, nj_src, ni_dst, nj_dst, num_wts
