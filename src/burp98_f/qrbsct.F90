@@ -20,11 +20,11 @@
 !DECK QRBSCT
 !.S QRBSCT
 !**S/P  QRBSCT - INITIALISER LE TABLEAU DE CONVERSIONS
-      FUNCTION QRBSCT( TABLEAU,           TABDIM, NELELU)
+      FUNCTION QRBSCT(TABLEAU, TABDIM, NELELU)
       use app
       IMPLICIT NONE
       INTEGER TABDIM
-      INTEGER  QRBSCT, TABLEAU(3,TABDIM), NELELU
+      INTEGER QRBSCT, TABLEAU(3,TABDIM), NELELU
 
 !AUTEUR: J. CAVEEN   FEVRIER 1991
 !REV 001 Y. BOURASSA MARS    1995 RATFOR @ FTN77
@@ -114,33 +114,29 @@
 
 !     CONVERSION DES NOM DE VARIABLES A DES ENTIERS DE 16 BITS
       READ(LIGNE(1:6),'(I6)') TRAVAIL
-      TRAVAIL =  MRBCOV( TRAVAIL )
+      TRAVAIL = MRBCOV(TRAVAIL)
 
-!     VERIFIER SI L'ELEMENT EST REPETITIF. SI OUI, ON ALLUME
-!     LE BIT CORRESPONDANT AU NO D'ELEMENT DANS RPETITIF
       IF(INDEX('Mm',LIGNE(85:85)) .NE. 0) &
           PUTBIT(RPETITIF, 1, TRAVAIL, 1)
 
-
-      IF(LIGNE(51:51) .NE. '*') THEN
-         I = I+1
-         IF (I .GT. TABDIM) THEN
-           write(app_msg,*) 'QRBSCT: ableau pour la lecture trop petit, consulte un specialiste'
-           call Lib_Log(APP_LIBFST,APP_ERROR,app_msg)       
-           QRBSCT = ERBTAB
-           RETURN
+    IF(LIGNE(51:51) .NE. '*') THEN
+    I = I+1
+    IF (I .GT. TABDIM) THEN
+        write(app_msg,*) 'QRBSCT: ableau pour la lecture trop petit, consulte un specialiste'
+            call Lib_Log(APP_LIBFST,APP_ERROR,app_msg)       
+            QRBSCT = ERBTAB
+            RETURN
          ENDIF
          TABLEAU(1,I) = TRAVAIL
          READ(LIGNE(64:66),'(I3)') TABLEAU(2,I)
          READ(LIGNE(67:77),'(I11)') TABLEAU(3,I)
       ENDIF
-
       GO TO 100
  300  CONTINUE
 
       IF(NELELU .NE. I) THEN
          write(app_msg,*) 'QRBSCT: NELELU <> nombre d''entree dans TABLEBURP'
-         call Lib_Log(APP_LIBFST,APP_INFO,app_msg)       
+         call Lib_Log(APP_LIBFST,APP_INFO,app_msg)
          QRBSCT = ERELEM
          NELELU = I
       ENDIF
