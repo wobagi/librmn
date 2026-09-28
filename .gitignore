@@ -8,5 +8,6 @@
 
 #----- build directory at the root path
 /build*
+/fpm/libapp/build*
 /.vscode/
 /*.code-workspace

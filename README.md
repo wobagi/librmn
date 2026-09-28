@@ -111,6 +111,12 @@ So, you have to clean the compilation directory and re-execute the
 compilation instructions specifying a different installation directory
 (`-DCMAKE_INSTALL_PREFIX=$install_dir_path`).
 
+### Compilation with fpm
+
+The library can also be built with the
+[Fortran Package Manager](https://fpm.fortran-lang.org) and used as a
+dependency of other fpm projects.  See [FPM.md](FPM.md).
+
 
 ## Example of use in a client application
 

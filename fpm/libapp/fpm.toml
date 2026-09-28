@@ -1,0 +1,54 @@
+# fpm manifest for the App library (a.k.a. libApp) used by librmn.
+#
+# librmn includes the app module and calls the App_* C routines for logging
+# (63 "use app" statements in src/), so fpm needs a package for it.  Upstream
+# libApp lives in the App/ git submodule and is built with CMake by librmn's
+# CMake build.  fpm, however, only consumes packages that are described by an
+# fpm.toml manifest, so this small package provides one.  It is wired into
+# librmn as a path dependency (see fpm.toml in the root of the repository).
+#
+# The sources in src/ are symlinks to the submodule's src/ directory.  Only the
+# sources that belong to the non-MPI flavour of libApp are linked in: MPMD.c
+# and MPMD_Module.F90 require MPI (they are only built by the "ompi" flavour of
+# the CMake build) and would make the fpm build fail on a machine without MPI.
+#
+# include/App_build_info.h replaces the header that the CMake build generates
+# with ec_build_info(); App/src/App.c includes it but uses none of its values.
+
+name = "App"
+version = "20.0.0"
+license = "LGPL-2.1-or-later"
+description = "ECCC-MRD application management library (fpm flavour of the App submodule)"
+maintainer = "Jean-Philippe.Gauthier@canada.ca"
+categories = ["science", "weather", "nwp"]
+keywords = ["application", "logging", "management"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[library]
+type = "static"
+include-dir = ["src", "include"]
+
+[fortran]
+source-form = "default"
+implicit-typing = true
+implicit-external = true
+
+[install]
+library = true
+
+# The C sources of libApp are modern C and do not need the RPN compiler options
+# of the "legacy" feature of librmn.  They do expect the _GNU_SOURCE definition
+# of App/CMakeLists.txt, and they register librmn with App_LibRegister() when
+# HAVE_RMN is defined, which is what the CMake build of librmn does as well.
+# These options are only used when this package is built on its own: fpm takes
+# the options of a build from its root package, so when libApp is built as a
+# dependency of librmn they come from the "legacy" feature of the root fpm.toml.
+[features]
+gnu-source.c-flags = "-D_GNU_SOURCE -DHAVE_RMN=\\\"20.0.0\\\""
+
+[profiles]
+default = ["gnu-source"]

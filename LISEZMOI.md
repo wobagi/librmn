@@ -117,6 +117,12 @@ Ainsi, il faut nettoyer le répertoire de compilation et ré-exécuter les
 instructions de compilation en spécifiant un répertoire d'installation
 (`-DCMAKE_INSTALL_PREFIX=$install_dir_path`) différent.
 
+### Compilation avec fpm
+
+La biliothèque peut aussi être compilée avec le
+[Fortran Package Manager](https://fpm.fortran-lang.org) et utilisée comme
+dépendance dans d'autres projets fpm.  Voir [FPM.md](FPM.md).
+
 
 ## Exemple d'utilisation dans une application cliente
 

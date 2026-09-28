@@ -1,0 +1,83 @@
+name = "rmn"
+version = "20.0.0"
+license = "LGPL-2.1-or-later"
+description = "ECCC-MRD collection of routines for numerical weather prediction"
+maintainer = "Samuel.Gilbert@ec.gc.ca"
+categories = ["science", "weather", "nwp"]
+keywords = ["nwp", "interpolation", "whiteboard", "burp", "gmm"]
+homepage = "https://github.com/ECCC-ASTD-MRD/librmn"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+# The library sources live in src/, the public headers in include/ and
+# src/PUBLIC_INCLUDES.  fpm/include holds small hand-written replacements for
+# the build-info header and for the preprocessor definitions that the CMake
+# build generates and defines (see FPM.md).
+[library]
+type = "static"
+include-dir = ["include", "src", "src/PUBLIC_INCLUDES", "src/PUBLIC_INCLUDES/rmn", "fpm/include"]
+
+# Legacy ECCC code: fixed form sources, implicit typing and implicit external
+# interfaces are used pervasively, and files must not be line-truncated.
+[fortran]
+source-form = "default"
+implicit-typing = true
+implicit-external = true
+
+[install]
+library = true
+
+# .F and .F90 sources are preprocessed with -cpp (added automatically by fpm)
+# and their #include directives are followed.  The same suffixes teach fpm to
+# treat those files as Fortran sources.
+[preprocess.cpp]
+suffixes = ["F90", "F"]
+
+# librmn contains a large amount of legacy Fortran and C that relies on the
+# RPN memory and file conventions: big endian unformatted files, 4 byte record
+# markers, Cray pointers, one-underscore symbol names (no second underscore).
+# These options are *required* for interoperability with the rest of the RPN
+# software, so any program that links against librmn has to be compiled and
+# linked with them as well.  They live in the "default" profile below, which is
+# what a plain "fpm build" of this repository uses.
+# The C sources additionally need the C99 standard that the CMake build selects
+# with CMAKE_C_STANDARD, and the definitions of fpm/include/rmn_config.h.
+# HAVE_RMN is the version string that CMakeLists.txt passes to the App library
+# (add_compile_definitions(HAVE_RMN=...)) so that App_LibRegister() can report
+# the librmn version; fpm uses one set of options for the whole build, so it
+# also reaches App/src/App.c of the dependency below.
+[features]
+legacy.flags = "-pthread"
+legacy.c-flags = "-pthread -std=c99 -include rmn_config.h -DHAVE_RMN=\\\"20.0.0\\\""
+legacy.link-time-flags = "-pthread"
+
+# -DF_C_STRING_AVAILABLE mirrors the check_source_compiles() of CMakeLists.txt:
+# gfortran 15 and later provide f_c_string in iso_c_binding, and
+# src/primitives/f_c_strings_mod.F90 then has to use it instead of its own
+# fallback implementation.  fpm cannot run such a test, so the definition is
+# hard coded here.  Compilers without the intrinsic simply do not export
+# f_c_string from that module, which no other librmn source uses.
+legacy.gfortran.flags = "-fconvert=big-endian -fcray-pointer -frecord-marker=4 -fno-second-underscore -fallow-argument-mismatch -ffixed-line-length-none -DF_C_STRING_AVAILABLE"
+
+legacy.ifort.flags = "-convert big_endian -align array32byte -assume byterecl -allow argument_mismatch"
+legacy.ifx.flags = "-convert big_endian -align array32byte -assume byterecl -allow argument_mismatch"
+legacy.flang.flags = "-Mbyteswapio -fcray-pointer -frecord-marker=4 -fno-second-underscore -ffixed-line-length-none"
+legacy.nvfortran.flags = "-Mbyteswapio -ffixed-line-length-none"
+legacy.nagfor.flags = "-Mbyteswapio -ffixed-line-length-none"
+
+# fpm applies the "default" profile whenever neither --profile nor --features
+# is given on the command line, so "fpm build" works out of the box.
+#
+# Beware: fpm 0.13.0-alpha only takes the compiler options from the root
+# package of a build.  The options of a dependency are ignored, whether they
+# come from its "default" profile or from features = [...] in the dependency
+# table.  A project that builds librmn therefore has to repeat these options in
+# its own manifest; see FPM.md.
+[profiles]
+default = ["legacy"]
+
+[dependencies]
+App = { path = "fpm/libapp" }
