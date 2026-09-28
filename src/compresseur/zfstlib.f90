@@ -15,7 +15,10 @@ subroutine ibicubic_int4(izo, ni, nj, step, ajus_x, ajus_y)
     real(kind = REAL64) :: icubic, dx, dy, z1, z2, z3, z4
     integer :: my_nint
 
-    icubic(z1, z2, z3, z4, dx) = z2 + (dx * (6 * (dx * (2 * (dx * ((z4 - z1) + 3 * (z2 - z3))) + 18 * ((z1 + z3) - 2 * z2))) + fac1  *  (6 * z3 - z4 - 3 * z2 - 2 * z1)))  *  unsurfac2
+    icubic(z1, z2, z3, z4, dx) = &
+        z2 + (dx * (6 * (dx * (2 * (dx * ((z4 - z1) + &
+        3 * (z2 - z3))) + 18 * ((z1 + z3) - 2 * z2))) + &
+        fac1  *  (6 * z3 - z4 - 3 * z2 - 2 * z1)))  *  unsurfac2
     my_nint(z) = (z + sign(0.5001D0, z))
 
     if (ajus_x ==  0) then
@@ -145,6 +148,8 @@ subroutine ibicubic_int3(izo, ni, nj, izc, nic, njc, step)
             z44 = dble(zc(i + 2, j + 2))
             izo(step * (ic - 1) + 1, step * (jc - 1) + 1) = nint(z22)
             dy = 0
+
+
             dx = third
             y2 = cubic(z12, z22, z32, z42, dx)
             izo(step * (ic - 1) + 2, step * (jc - 1) + 1) = nint(y2)
