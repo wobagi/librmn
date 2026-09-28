@@ -35,9 +35,39 @@ Add the dependency to your `fpm.toml`:
 ```toml
 [dependencies]
 rmn = { git = "https://github.com/ECCC-ASTD-MRD/librmn.git", tag = "v20.0.0" }
+# a fork, for instance:
+rmn = { git = "https://github.com/wobagi/librmn.git", tag = "v20.0.0" }
 # or, for a local checkout:
 rmn = { path = "../librmn" }
 ```
+
+fpm clones the repository once into `build/dependencies/rmn` of the *consuming*
+project (a shallow clone, detached `HEAD`, no tags) and reuses that clone
+afterwards.
+
+Always use a `tag`, and **bump it for every new librmn release**.  fpm only
+fetches again when the `tag` value changes:
+
+* new `tag` in the manifest: fpm fetches it, `tag v20.0.2 -> FETCH_HEAD`, and
+  the build uses the new commit;
+* unchanged `tag`, or no `tag` at all, with new commits on the branch: fpm
+  re-reads its own cached manifest, fetches nothing, and the build silently
+  uses the **old** commit.  The same happens with `branch = "..."` instead of
+  `tag = "..."`.
+
+A `tag` or `branch` that does not exist in the remote is not reported as such:
+fpm creates an empty repository and stops with the confusing message
+`fatal: your current branch 'master' does not have any commits yet`.
+
+If the dependency is missing, or if the clone was made when the `tag` did not
+exist yet, the clone has to be removed to get a fresh one:
+
+```bash
+rm -rf build/dependencies/rmn
+```
+
+Note that the `App` and `cmake_rpn` submodules are never needed by fpm: the
+fpm build of librmn is self contained, see "The App dependency" below.
 
 and **add the `legacy` compiler options of librmn to your own manifest**:
 
@@ -157,7 +187,7 @@ git submodule built by CMake, and it has no `fpm.toml` of its own, so
 
 * `fpm/libapp/fpm.toml`, with the include directory that holds the static
   `App_build_info.h`.
-* `fpm/libapp/src/`, which contains symlinks to the non-MPI sources of the
+* `fpm/libapp/src/`, which contains copies of the non-MPI sources of the
   submodule: `App.c`, `App.f90`, `str.c` and the headers `App.h`,
   `App_Timer.h` and `str.h`.
 
@@ -165,8 +195,21 @@ git submodule built by CMake, and it has no `fpm.toml` of its own, so
 support.  The CMake build produces them only in the "ompi" flavour
 (`-DWITH_OMPI=yes`), so this is the equivalent of a serial build.
 
-The submodule itself is not modified.  When `App/` is updated, the symlinks
-keep working as long as the file names do not change.
+The files are **copies, not symlinks**, and they are the only vendored files of
+the whole package.  fpm clones its dependencies with `git clone`, which does
+not initialise submodules, so symlinks into `App/` would dangle in every build
+of a project that depends on librmn (that is, in every build that is not
+performed in a submodule aware working copy).  fpm has no submodule support and
+no way to declare a manifest for a package inline, hence the copy.  Refresh it
+with
+
+```bash
+cp App/src/{App.c,App.f90,App.h,App_Timer.h,str.c,str.h} fpm/libapp/src/
+```
+
+after `git submodule update`.  The submodule itself is not modified.  The
+licence of the copied files is the licence of the submodule,
+`LGPL-2.1-or-later`, which is the licence of librmn itself.
 
 
 ## Legacy test programs

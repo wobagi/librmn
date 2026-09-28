@@ -7,10 +7,19 @@
 # fpm.toml manifest, so this small package provides one.  It is wired into
 # librmn as a path dependency (see fpm.toml in the root of the repository).
 #
-# The sources in src/ are symlinks to the submodule's src/ directory.  Only the
-# sources that belong to the non-MPI flavour of libApp are linked in: MPMD.c
-# and MPMD_Module.F90 require MPI (they are only built by the "ompi" flavour of
-# the CMake build) and would make the fpm build fail on a machine without MPI.
+# The sources in src/ are *copies* of the files listed above from the App
+# submodule (LGPL-2.1-or-later, same licence as librmn).  They are vendored
+# instead of symlinked because fpm clones dependencies from git, and a plain
+# "git clone" does not initialise submodules: symlinks to ../../../App/src/
+# would dangle and the build would fail.  fpm has no submodule support, and it
+# needs a manifest for every dependency, so a self contained copy of these six
+# files is the only way to make "fpm build" work from a fresh clone.
+# To update them after a submodule update:
+#   cp App/src/{App.c,App.f90,App.h,App_Timer.h,str.c,str.h} fpm/libapp/src/
+# Only the sources that belong to the non-MPI flavour of libApp are copied:
+# MPMD.c and MPMD_Module.F90 require MPI (they are only built by the "ompi"
+# flavour of the CMake build) and would make the fpm build fail on a machine
+# without MPI.
 #
 # include/App_build_info.h replaces the header that the CMake build generates
 # with ec_build_info(); App/src/App.c includes it but uses none of its values.
