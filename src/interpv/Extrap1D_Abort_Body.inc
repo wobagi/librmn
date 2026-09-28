@@ -74,7 +74,8 @@
       if( extrapEnableDown .and. posnDestInSrc(i,vt) == lowestPossiblePosn) then
         if( vLevelDestn(i,vt) < vLevelSource(i,indexLowestLevel) ) then
           ! extrapolation is required:  abort execution
-          write(app_msg,*) "Extrap1D_Abort: Attempting extrapolation to level ",vLevelDestn(i,vt),", this is below the lowest level ",vLevelSource(i,indexLowestLevel)
+          write(app_msg,*) "Extrap1D_Abort: Attempting extrapolation to level ", &
+		  vLevelDestn(i,vt),", this is below the lowest level ",vLevelSource(i,indexLowestLevel)
           call lib_log(APP_LIBINTERPV,APP_ERROR,app_msg)
           call exit(2)
         endif
@@ -83,7 +84,8 @@
               .and. posnDestInSrc(i,vt) == highestPossiblePosn) then
         if( vLevelDestn(i,vt) > vLevelSource(i,indexHighestLevel) ) then
           ! extrapolation is required:  abort execution
-          write(app_msg,*) "Extrap1D_Abort: Attempting extrapolation to level ",vLevelDestn(i,vt),", this is above the highest level ",vLevelSource(i,indexHighestLevel)
+          write(app_msg,*) "Extrap1D_Abort: Attempting extrapolation to level ", &
+		  vLevelDestn(i,vt),", this is above the highest level ",vLevelSource(i,indexHighestLevel)
           call lib_log(APP_LIBINTERPV,APP_ERROR,app_msg)
           call exit(2)
         end if
