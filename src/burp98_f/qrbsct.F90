@@ -116,8 +116,9 @@
       READ(LIGNE(1:6),'(I6)') TRAVAIL
       TRAVAIL = MRBCOV(TRAVAIL)
 
-      IF(INDEX('Mm',LIGNE(85:85)) .NE. 0) &
+      IF(INDEX('Mm',LIGNE(85:85)) .NE. 0) THEN
           PUTBIT(RPETITIF, 1, TRAVAIL, 1)
+      ENDIF
 
     IF(LIGNE(51:51) .NE. '*') THEN
     I = I+1
