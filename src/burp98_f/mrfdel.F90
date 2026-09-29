@@ -75,7 +75,9 @@
          call Lib_Log(APP_LIBFST,APP_DEBUG,app_msg)       
       ENDIF
 
- 1100 FORMAT('MRFDEL: Efface - STNID=',A9,' IDTYP=',I3, ' LAT=',I5,' LON=',I5,' DX=',i4,' DY=',i4,' DATE=',I8, ' TEMPS=',I4,' FLGS=',i8,' LNGR=',i6)
+ 1100 FORMAT('MRFDEL: Efface - STNID=',A9,' IDTYP=',I3, &
+     ' LAT=',I5,' LON=',I5,' DX=',i4,' DY=',i4,' DATE=', &
+     I8, ' TEMPS=',I4,' FLGS=',i8,' LNGR=',i6)
 
       RETURN
       END
