@@ -52,7 +52,7 @@
 #include "codes.cdk"
 #include "defi.cdk"
 #include "burpopt.cdk"
-#include <ftnmacros.hf>
+! #include <ftnmacros.hf>
 !
 !MODULES
       EXTERNAL MRBCOV
