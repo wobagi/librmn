@@ -90,7 +90,8 @@ public
 
     integer, parameter :: GMM_NULL_FLAGS = 0
     type(gmm_layout), parameter :: GMM_NULL_LAYOUT = gmm_layout(0, 0, 0, 0, 0)
-    type(gmm_layout), parameter, dimension(4) :: GMM_NULL_LAYOUTS = (/GMM_NULL_LAYOUT, GMM_NULL_LAYOUT, GMM_NULL_LAYOUT, GMM_NULL_LAYOUT/)
+    type(gmm_layout), parameter, dimension(4) :: GMM_NULL_LAYOUTS = &
+        (/GMM_NULL_LAYOUT, GMM_NULL_LAYOUT, GMM_NULL_LAYOUT, GMM_NULL_LAYOUT/)
     type(gmm_attributes), parameter :: GMM_NULL_ATTRIB = gmm_attributes(GMM_KEY_NOT_FOUND, 0, 0, 0, 0)
     type(gmm_metadata), parameter :: GMM_NULL_METADATA = gmm_metadata(GMM_NULL_LAYOUTS, GMM_NULL_ATTRIB)
 
@@ -121,7 +122,8 @@ public
     !> Flags kept from user specified flags upon creation
     integer, private, parameter :: FLAGS_KEPT_ON_CREATE = GMM_FLAG_IZER + GMM_FLAG_INAN + GMM_FLAG_RSTR
     !> Flags propagated to restart file
-    integer, private, parameter :: FLAGS_KEPT_IN_RESTART = GMM_FLAG_IZER + GMM_FLAG_INAN + GMM_FLAG_RSTR + GMM_FLAG_IINV
+    integer, private, parameter :: FLAGS_KEPT_IN_RESTART = &
+        GMM_FLAG_IZER + GMM_FLAG_INAN + GMM_FLAG_RSTR + GMM_FLAG_IINV
 
     type, private :: p_gmm_metadata
         ! Try to remove the SEQUENCE statement to see if it matters
