@@ -20,7 +20,8 @@
 
 !> Intialize report header
 !> This must be done before using the report
-function mrbini(iun, buf, temps, flgs, stnid, idtyp, lati, long, dx, dy, elev, idrcv, datein, oars, run, sup, nsup, xaux, nxaux) result(retval)
+function mrbini(iun, buf, temps, flgs, stnid, idtyp, lati, long, &
+        dx, dy, elev, idrcv, datein, oars, run, sup, nsup, xaux, nxaux) result(retval)
     use app
     implicit none
 
