@@ -227,8 +227,10 @@
       real*8 conv,fact
 
       hybrid_to_pres=-1
-      call lib_log(APP_LIBRMN,APP_WARNING,'hybrid_to_pres: function hybrid_to_pres will calculate only a NORMALIZED (kind=1) hybrid coordinate')
-      call lib_log(APP_LIBRMN,APP_WARNING,'hybrid_to_pres: RECOMMEND using hyb_to_pres function')
+      call lib_log(APP_LIBRMN,APP_WARNING, &
+          'hybrid_to_pres: function hybrid_to_pres will calculate only a NORMALIZED (kind=1) hybrid coordinate')
+      call lib_log(APP_LIBRMN,APP_WARNING, &
+          'hybrid_to_pres: RECOMMEND using hyb_to_pres function')
 
       if (rcoef.lt.1.0.or.rcoef.gt.2.0) then
           call lib_log(APP_LIBRMN,APP_ERROR,'hybrid_to_pres: rcoef must be between 1.0 and 2.0')
