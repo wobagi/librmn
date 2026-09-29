@@ -42,10 +42,10 @@ IAND(RSHIFT(x(WDNO(y)),SHCNT(y)),RMASK(z))
 !> \param y Position of the right hand bit of the field to extract.  Bit 0 is the sign bit of the word of the array.
 !> \param z Number of bit of the field (max 32)
 #define PUTBIT(w, x, y, z)\
-w(WDNO(y))=&
-IOR(w(WDNO(y)),&
-LSHIFT(IAND(x,RMASK(z)),&
-SHCNT(y)))
+w(WDNO(y))=IOR(w(WDNO(y)), & \
+	LSHIFT(IAND(x,RMASK(z)), & \
+		SHCNT(y)))
+
 
 !> Zero a field in an array
 !> \param x Array
