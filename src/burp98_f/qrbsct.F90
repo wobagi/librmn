@@ -120,8 +120,7 @@
         RPETITIF(  &
             WDNO(TRAVAIL)) = &
             IOR(RPETITIF(WDNO(TRAVAIL)), &
-            LSHIFT(IAND(1,RMASK(1)), &
-            SHCNT(TRAVAIL)))
+            LSHIFT(IAND(1,RMASK(1)), SHCNT(TRAVAIL)))
         !PUTBIT(RPETITIF, 1, TRAVAIL, 1)
     ENDIF
 
